@@ -13,7 +13,6 @@ export default {
     },
     mounted(){
         console.log(new Date().getTime());
-        axios({});
         index();
     }
 }

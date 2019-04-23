@@ -2,7 +2,6 @@
  * Created by xiaoxx on 2017/9/20.
  */
 const webpack = require('webpack');
-const path = require('path');
 const merge = require('webpack-merge');
 const base = require('./webpack.base.js');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
