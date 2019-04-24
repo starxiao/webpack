@@ -20,4 +20,7 @@ module.exports = merge(base,{
         //     },
         // },
     },
+    watchOptions:{
+        ignored: /node_modules/
+    }
 });

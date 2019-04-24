@@ -21,5 +21,7 @@ module.exports = merge(base,{
             _RootPath: JSON.stringify(RootPath[process.env.NODE_ENV])
         })
     ],
-    optimization:{minimizer: [new UglifyJSPlugin()]}
+    optimization: {
+        minimizer: [new UglifyJSPlugin()],
+    }
 });

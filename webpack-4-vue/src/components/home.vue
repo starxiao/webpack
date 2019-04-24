@@ -17,3 +17,10 @@ export default {
     }
 }
 </script>
+<style scoped>
+    .container{
+        color: red
+    }
+</style>
+
+
