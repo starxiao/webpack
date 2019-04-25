@@ -4,7 +4,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const isProd = process.env.NODE_ENV === 'prod';
 
 module.exports = {
@@ -14,7 +14,7 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, '../dist'),
         publicPath: '',
-        filename: '[name].[contenthash].js',
+        filename: isProd ? '[name].[contenthash].js' : '[name].js' ,
     },
     module: {
         rules: [
@@ -28,23 +28,24 @@ module.exports = {
                 test: /\.css$/,
                 use:[
                     {
-                        loader: 'style-loader'
+                        loader: isProd ? MiniCssExtractPlugin.loader : 'vue-style-loader'
                     },
                     {
                         loader: 'css-loader'
-                    }
+                    },
                 ]
             },
             {
                 test: /\.js$/,
-                include: path.resolve(__dirname,'src'),
-                use: {
-                    loader: 'babel-loader',
-                    options: {
-                        presets: ['@babel/preset-env', '@vue/babel-preset-app']
-                    }
-
-                },
+                include: path.resolve(__dirname,'../src'),
+                use: [
+                    {
+                        loader: 'babel-loader',
+                        options: {
+                            presets: ['@babel/preset-env', '@vue/babel-preset-app']
+                        }
+                    },
+                ],
             },
             {
                 test: /\.(png|jpg|gif|svg)$/,
@@ -77,33 +78,11 @@ module.exports = {
             '~components': path.resolve(__dirname, '../src/components')
         }
     },
-    optimization:{
-        splitChunks: {
-            minSize: 0,
-            automaticNameDelimiter: '-',
-            cacheGroups: {
-                libs: {
-                    test: /[\\/]node_modules[\\/]/,
-                    chunks: 'all',
-                    name: 'libs',
-                    priority: -10,
-                },
-                commons:{
-                    test: /[\\/]commons[\\/]index\.js/,
-                    minSize: 0,
-                    chunks: 'all',
-                    name: 'commons',
-                    priority: -20
-                }
-            }
-        }
-    },
     plugins: [
         new VueLoaderPlugin(),
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname,'../src/static/template.html'),
             hash: isProd
         }),
-        // new BundleAnalyzerPlugin()
     ]
 }; 

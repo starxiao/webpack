@@ -1,27 +1,50 @@
 /**
  * Created by xiaoxx on 2017/9/20.
  */
-const webpack = require('webpack');
 const merge = require('webpack-merge');
 const base = require('./webpack.base.js');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const RootPath = require('./config');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+
 
 module.exports = merge(base,{
     plugins:[
         new MiniCssExtractPlugin({
-                filename: 'style.css',
-                allChunks: true
+                filename: '[name].[contenthash].css',
             }),
-        new webpack.DefinePlugin({
-            'process.env':{
-                'NODE_ENV': JSON.stringify("production")
-            },
-            _RootPath: JSON.stringify(RootPath[process.env.NODE_ENV])
-        })
+        new BundleAnalyzerPlugin()
     ],
     optimization: {
-        minimizer: [new UglifyJSPlugin()],
+        minimizer: [
+            new UglifyJSPlugin(),
+            new OptimizeCSSAssetsPlugin()
+        ],
+        splitChunks: {
+            automaticNameDelimiter: '-',
+            cacheGroups: {
+                libs: {
+                    test: /[\\/]node_modules[\\/]/,
+                    chunks: 'all',
+                    name: 'libs',
+                    priority: -10,
+                },
+                commons: {
+                    test: /[\\/]commons[\\/]index\.js/,
+                    minSize: 0,
+                    chunks: 'all',
+                    name: 'commons',
+                    priority: -20
+                },
+                styles: {
+                    name: 'styles',
+                    test: /\.css$/,
+                    chunks: 'all',
+                    priority: -30,
+                    enforce: true,
+                },
+            }
+        }
     }
 });
