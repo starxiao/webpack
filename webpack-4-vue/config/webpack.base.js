@@ -82,7 +82,6 @@ module.exports = {
         new VueLoaderPlugin(),
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname,'../src/static/template.html'),
-            hash: isProd
         }),
     ]
 }; 
