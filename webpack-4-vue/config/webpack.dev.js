@@ -8,8 +8,7 @@ module.exports = merge(base,{
     devServer:{
         contentBase: path.resolve(__dirname,'../dist'),
         compress: true,
-        host: 'huodong.500boss.com',
-        allowedHosts: ['huodong.500boss.com'],
+        host: 'localhost',
         hot: true,
         // port: 80,
         // https: true,
