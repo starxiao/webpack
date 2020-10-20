@@ -35,7 +35,10 @@ module.exports = function(env, argv) {
                             loader: env.prod ? MiniCssExtractPlugin.loader : 'vue-style-loader'
                         },
                         {
-                            loader: 'css-loader'
+                            loader: 'css-loader',
+                            options: {
+                                esModule: false
+                            }
                         }
                     ]
                 },
