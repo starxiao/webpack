@@ -4,13 +4,15 @@ const base = require('./webpack.base.js');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = function(env) { 
     return merge(base(env), {
         plugins:[
             new MiniCssExtractPlugin({
                 filename: '[name].[contenthash].css',
-            })
+            }),
+            new BundleAnalyzerPlugin()
         ],
         optimization: {
             minimizer: [
