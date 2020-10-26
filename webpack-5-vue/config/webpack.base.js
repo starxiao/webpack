@@ -24,12 +24,23 @@ module.exports = function(env, argv) {
                     use: {
                         loader: 'babel-loader',
                         options: {
-                            presets: ['@babel/preset-env']
+                            presets: [
+                                [
+                                    '@babel/preset-env',
+                                    {
+                                        useBuiltIns: 'usage',
+                                        corejs: {
+                                            version: 3,
+                                        }
+                                    }
+                                ]
+                            ]
                         }
                     }
                 },
                 {
                     test: /\.css$/,
+                    exclude: /node_modules/,
                     use: [
                         {
                             loader: env.prod ? MiniCssExtractPlugin.loader : 'vue-style-loader'
@@ -37,7 +48,16 @@ module.exports = function(env, argv) {
                         {
                             loader: 'css-loader',
                             options: {
+                                importLoaders: 1,
                                 esModule: false
+                            }
+                        },
+                        {
+                            loader: 'postcss-loader',
+                            options: {
+                                postcssOptions: {
+                                    plugins: [require('autoprefixer')()]
+                                }
                             }
                         }
                     ]

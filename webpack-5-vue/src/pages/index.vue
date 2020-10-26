@@ -15,6 +15,9 @@ export default {
 }
 </script>
 <style scoped>
+    .container {
+        display: flex;
+    }
     .msg {
         color: red;
     }
