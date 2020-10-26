@@ -42,7 +42,17 @@ module.exports = {
                     {
                         loader: 'babel-loader',
                         options: {
-                            presets: ['@babel/preset-env', '@vue/babel-preset-app']
+                            presets: [
+                                [
+                                    '@babel/preset-env',
+                                    {
+                                        useBuiltIns: 'entry',
+                                        corejs: {
+                                            version: 3,
+                                        }
+                                    }
+                                ]
+                            ]
                         }
                     },
                 ],
